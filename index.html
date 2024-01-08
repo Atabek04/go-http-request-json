@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golang Server Test</title>
+</head>
+<body>
+<h1>Golang Server Test</h1>
+<form id="postDataForm">
+    <label for="message">Message:</label>
+    <input type="text" id="message" name="message" required>
+    <button type="submit">Send POST Request</button>
+</form>
+
+<div id="response"></div>
+
+<script>
+    document.getElementById('postDataForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var message = document.getElementById('message').value;
+
+        fetch('http://localhost:8080/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('response').innerText = 'Error: ' + error.message;
+            });
+    });
+</script>
+</body>
+</html>
